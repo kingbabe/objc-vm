@@ -4,7 +4,7 @@ from ply import yacc
 start = 'translation_unit'
 
 
-# translation_unit
+# translation_unit (resolved)
 def p_translation_unit(p):
     """translation_unit : external_declaration
                         | translation_unit external_declaration
@@ -12,7 +12,7 @@ def p_translation_unit(p):
     pass
 
 
-# external_declaration
+# external_declaration (resolved)
 def p_external_declaration(p):
     """external_declaration : function_definition
                             | declaration
@@ -26,7 +26,7 @@ def p_external_declaration(p):
     pass
 
 
-# function_definition
+# function_definition (resolved)
 def p_function_definition(p):
     """function_definition : declaration_specifiers declarator declaration_list compound_statement
                            | declaration_specifiers declarator compound_statement
@@ -36,7 +36,7 @@ def p_function_definition(p):
     pass
 
 
-# declaration
+# declaration (resolved)
 def p_declaration(p):
     """declaration : declaration_specifiers SEMI
                    | type_declaration SEMI
@@ -45,7 +45,7 @@ def p_declaration(p):
     pass
 
 
-# class_interface
+# class_interface (resolved)
 def p_class_interface(p):
     """class_interface : INTERFACE class_name instance_variables interface_declaration_list END
                        | INTERFACE class_name ':' superclass_name instance_variables interface_declaration_list END
@@ -56,7 +56,7 @@ def p_class_interface(p):
     pass
 
 
-# class_implementation
+# class_implementation (resolved)
 def p_class_implementation(p):
     """class_implementation : IMPLEMENTATION class_name instance_variables implementation_definition_list END
                             | IMPLEMENTATION class_name ':' superclass_name instance_variables
@@ -136,5 +136,73 @@ def p_compound_statement(p):
                           | '{' statement_list '}'
                           | '{' declaration_list '}'
                           | '{' declaration_list statement_list '}'
+    """
+    pass
+
+
+# type_declaration
+def p_type_declaration(p):
+    """type_declaration : TYPEDEF declaration_specifiers type_declarator
+    """
+    pass
+
+
+# init_declarator_list
+def p_init_declarator_list(p):
+    """init_declarator_list : init_declarator
+                            | init_declarator_list ',' init_declarator
+    """
+    pass
+
+
+# class_name
+def p_class_name(p):
+    """class_name : IDENTIFIER
+    """
+    pass
+
+
+# superclass_name
+def p_superclass_name(p):
+    """superclass_name : IDENTIFIER
+    """
+    pass
+
+
+# instance_variables
+def p_instance_variables(p):
+    """instance_variables : '{' struct_declaration_list '}'
+                          | '{' visibility_specification struct_declaration_list '}'
+                          | '{' struct_declaration_list instance_variables '}'
+                          | '{' visibility_specification struct_declaration_list instance_variables '}'
+    """
+    pass
+
+
+# interface_declaration_list
+def p_interface_declaration_list(p):
+    """interface_declaration_list : declaration
+                                  | method_declaration
+                                  | interface_declaration_list declaration
+                                  | interface_declaration_list method_declaration
+    """
+    pass
+
+
+# protocol_reference_list
+def p_protocol_reference_list(p):
+    """protocol_reference_list : '<' protocol_list '>'
+    """
+    pass
+
+
+# implementation_definition_list
+def p_implementation_definition_list(p):
+    """implementation_definition_list : function_definition
+                                      | declaration
+                                      | method_definition
+                                      | implementation_definition_list function_definition
+                                      | implementation_definition_list declaration
+                                      | implementation_definition_list method_definition
     """
     pass

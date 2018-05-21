@@ -122,7 +122,7 @@ def p_declarator(p):
     pass
 
 
-# declaration_list
+# declaration_list (resolved)
 def p_declaration_list(p):
     """declaration_list : declaration
                         | declaration_list declaration
@@ -130,24 +130,24 @@ def p_declaration_list(p):
     pass
 
 
-# compound_statement
+# compound_statement (resolved)
 def p_compound_statement(p):
-    """compound_statement : '{' '}'
-                          | '{' statement_list '}'
-                          | '{' declaration_list '}'
-                          | '{' declaration_list statement_list '}'
+    """compound_statement : LBRACE RBRACE
+                          | LBRACE statement_list RBRACE
+                          | LBRACE declaration_list RBRACE
+                          | LBRACE declaration_list statement_list RBRACE
     """
     pass
 
 
-# type_declaration
+# type_declaration (resolved)
 def p_type_declaration(p):
     """type_declaration : TYPEDEF declaration_specifiers type_declarator
     """
     pass
 
 
-# init_declarator_list
+# init_declarator_list (resolved)
 def p_init_declarator_list(p):
     """init_declarator_list : init_declarator
                             | init_declarator_list ',' init_declarator
@@ -295,3 +295,28 @@ def p_direct_declarator(p):
                          | direct_declarator '(' ')'
     """
     pass
+
+
+# statement_list
+def p_statement_list(p):
+    """statement_list : statement
+                      | statement_list statement
+    """
+    pass
+
+
+# type_declarator
+def p_type_declarator(p):
+    """type_declarator : pointer type_direct_declarator
+                       | type_direct_declarator
+    """
+    pass
+
+
+# init_declarator
+def p_init_declarator(p):
+    """init_declarator : declarator
+                       | declarator '=' initializer
+    """
+    pass
+

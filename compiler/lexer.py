@@ -65,7 +65,7 @@ def p_class_implementation(p):
     pass
 
 
-# category_interface
+# category_interface (resolved)
 def p_category_interface(p):
     """category_interface : INTERFACE class_name '(' category_name ')' interface_declaration_list END
                           | INTERFACE class_name '(' category_name ')' protocol_reference_list
@@ -74,14 +74,14 @@ def p_category_interface(p):
     pass
 
 
-# category_implementation
+# category_implementation (resolved)
 def p_category_implementation(p):
     """category_implementation : IMPLEMENTATION class_name '(' category_name ')' implementation_definition_list END
     """
     pass
 
 
-# protocol_declaration
+# protocol_declaration (resolved)
 def p_protocol_declaration(p):
     """protocol_declaration : PROTOCOL protocol_name interface_declaration_list END
                             | PROTOCOL protocol_name protocol_reference_list interface_declaration_list END
@@ -89,14 +89,14 @@ def p_protocol_declaration(p):
     pass
 
 
-# class_declaration_list
+# class_declaration_list (resolved)
 def p_class_declaration_list(p):
     """class_declaration_list : CLASS class_list
     """
     pass
 
 
-# declaration_specifiers
+# declaration_specifiers (resolved)
 def p_declaration_specifiers(p):
     """declaration_specifiers : storage_class_specifier
                               | storage_class_specifier declaration_specifiers
@@ -114,7 +114,7 @@ def p_declaration_specifiers(p):
     pass
 
 
-# declarator
+# declarator (resolved)
 def p_declarator(p):
     """declarator : pointer direct_declarator
                   | direct_declarator
@@ -204,5 +204,94 @@ def p_implementation_definition_list(p):
                                       | implementation_definition_list function_definition
                                       | implementation_definition_list declaration
                                       | implementation_definition_list method_definition
+    """
+    pass
+
+
+# category_name
+def p_category_name(p):
+    """category_name : IDENTIFIER
+    """
+    pass
+
+
+# protocol_name
+def p_protocol_name(p):
+    """protocol_name: IDENTIFIER
+    """
+    pass
+
+
+# class_list
+def p_class_list(p):
+    """class_list : class_name
+                  | class_list ',' class_name
+    """
+    pass
+
+
+# storage_class_specifier
+def p_storage_class_specifier(p):
+    """storage_class_specifier : EXTERN
+                               | STATIC
+                               | AUTO
+                               | REGISTER
+    """
+    pass
+
+
+# type_specifier
+# TODO: TYPE_NAME not resolved
+def p_type_specifier(p):
+    """type_specifier : VOID
+                      | CHAR
+                      | SHORT
+                      | INT
+                      | LONG
+                      | FLOAT
+                      | DOUBLE
+                      | SIGNED
+                      | UNSIGNED
+                      | struct_or_union_specifier
+                      | enum_specifier
+                      | TYPE_NAME
+    """
+    pass
+
+
+# type_qualifier
+def p_type_qualifier(p):
+    """type_qualifier : CONST
+                      | VOLATILE
+    """
+    pass
+
+
+# declspec
+def p_declspec(p):
+    """declspec : DECLSPEC '(' declspec_type ')'
+    """
+    pass
+
+
+# pointer
+def p_pointer(p):
+    """pointer : '*'
+               | '*' type_qualifier_list
+               | '*' pointer
+               | '*' type_qualifier_list pointer
+    """
+    pass
+
+
+# direct_declarator
+def p_direct_declarator(p):
+    """direct_declarator : IDENTIFIER
+                         | '(' declarator ')'
+                         | direct_declarator '[' constant_expression ']'
+                         | direct_declarator '[' ']'
+                         | direct_declarator '(' parameter_type_list ')'
+                         | direct_declarator '(' identifier_list ')'
+                         | direct_declarator '(' ')'
     """
     pass

@@ -55,7 +55,9 @@ tokens = (
     # IDENTIFIER
     'IDENTIFIER',
     # WhiteSpace
-    'WS'
+    'WS',
+    # unknown
+    'DECLSPEC',
 )
 
 t_AUTO = r'auto'
@@ -265,6 +267,10 @@ t_FLOATING_POINT_LITERAL = r'([0-9]+\.[0-9]*|\.[0-9]+)[fFdD]?'
 
 # ignores
 t_ignore_WS = r'[ \r\n\t\u000C]'
+
+# unknown
+t_DECLSPEC = r'__declspec'
+
 
 
 def t_newline(t):

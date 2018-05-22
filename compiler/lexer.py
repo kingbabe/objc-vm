@@ -1,322 +1,299 @@
-from .tokens import tokens
-from ply import yacc
-
-start = 'translation_unit'
-
-
-# translation_unit (resolved)
-def p_translation_unit(p):
-    """translation_unit : external_declaration
-                        | translation_unit external_declaration
-    """
-    pass
-
-
-# external_declaration (resolved)
-def p_external_declaration(p):
-    """external_declaration : function_definition
-                            | declaration
-                            | class_interface
-                            | class_implementation
-                            | category_interface
-                            | category_implementation
-                            | protocol_declaration
-                            | class_declaration_list
-    """
-    pass
-
-
-# function_definition (resolved)
-def p_function_definition(p):
-    """function_definition : declaration_specifiers declarator declaration_list compound_statement
-                           | declaration_specifiers declarator compound_statement
-                           | declarator declaration_list compound_statement
-                           | declarator compound_statement
-    """
-    pass
-
-
-# declaration (resolved)
-def p_declaration(p):
-    """declaration : declaration_specifiers SEMI
-                   | type_declaration SEMI
-                   | declaration_specifiers init_declarator_list SEMI
-    """
-    pass
-
-
-# class_interface (resolved)
-def p_class_interface(p):
-    """class_interface : INTERFACE class_name instance_variables interface_declaration_list END
-                       | INTERFACE class_name ':' superclass_name instance_variables interface_declaration_list END
-                       | INTERFACE protocol_reference_list instance_variables interface_declaration_list END
-                       | INTERFACE class_name ':' superclass_name protocol_reference_list instance_variables
-                         interface_declaration_list END
-    """
-    pass
-
-
-# class_implementation (resolved)
-def p_class_implementation(p):
-    """class_implementation : IMPLEMENTATION class_name instance_variables implementation_definition_list END
-                            | IMPLEMENTATION class_name ':' superclass_name instance_variables
-                              implementation_definition_list END
-    """
-    pass
-
-
-# category_interface (resolved)
-def p_category_interface(p):
-    """category_interface : INTERFACE class_name '(' category_name ')' interface_declaration_list END
-                          | INTERFACE class_name '(' category_name ')' protocol_reference_list
-                            interface_declaration_list END
-    """
-    pass
-
-
-# category_implementation (resolved)
-def p_category_implementation(p):
-    """category_implementation : IMPLEMENTATION class_name '(' category_name ')' implementation_definition_list END
-    """
-    pass
-
-
-# protocol_declaration (resolved)
-def p_protocol_declaration(p):
-    """protocol_declaration : PROTOCOL protocol_name interface_declaration_list END
-                            | PROTOCOL protocol_name protocol_reference_list interface_declaration_list END
-    """
-    pass
-
-
-# class_declaration_list (resolved)
-def p_class_declaration_list(p):
-    """class_declaration_list : CLASS class_list
-    """
-    pass
-
-
-# declaration_specifiers (resolved)
-def p_declaration_specifiers(p):
-    """declaration_specifiers : storage_class_specifier
-                              | storage_class_specifier declaration_specifiers
-                              | type_specifier
-                              | type_specifier declaration_specifiers
-                              | type_qualifier
-                              | type_qualifier declaration_specifiers
-                              | declspec storage_class_specifier
-                              | declspec storage_class_specifier declaration_specifiers
-                              | declspec type_specifier
-                              | declspec type_specifier declaration_specifiers
-                              | declspec type_qualifier
-                              | declspec type_qualifier declaration_specifiers
-    """
-    pass
-
-
-# declarator (resolved)
-def p_declarator(p):
-    """declarator : pointer direct_declarator
-                  | direct_declarator
-    """
-    pass
-
-
-# declaration_list (resolved)
-def p_declaration_list(p):
-    """declaration_list : declaration
-                        | declaration_list declaration
-    """
-    pass
-
-
-# compound_statement (resolved)
-def p_compound_statement(p):
-    """compound_statement : LBRACE RBRACE
-                          | LBRACE statement_list RBRACE
-                          | LBRACE declaration_list RBRACE
-                          | LBRACE declaration_list statement_list RBRACE
-    """
-    pass
-
-
-# type_declaration (resolved)
-def p_type_declaration(p):
-    """type_declaration : TYPEDEF declaration_specifiers type_declarator
-    """
-    pass
-
-
-# init_declarator_list (resolved)
-def p_init_declarator_list(p):
-    """init_declarator_list : init_declarator
-                            | init_declarator_list ',' init_declarator
-    """
-    pass
-
-
-# class_name
-def p_class_name(p):
-    """class_name : IDENTIFIER
-    """
-    pass
-
-
-# superclass_name
-def p_superclass_name(p):
-    """superclass_name : IDENTIFIER
-    """
-    pass
-
-
-# instance_variables
-def p_instance_variables(p):
-    """instance_variables : '{' struct_declaration_list '}'
-                          | '{' visibility_specification struct_declaration_list '}'
-                          | '{' struct_declaration_list instance_variables '}'
-                          | '{' visibility_specification struct_declaration_list instance_variables '}'
-    """
-    pass
-
-
-# interface_declaration_list
-def p_interface_declaration_list(p):
-    """interface_declaration_list : declaration
-                                  | method_declaration
-                                  | interface_declaration_list declaration
-                                  | interface_declaration_list method_declaration
-    """
-    pass
-
-
-# protocol_reference_list
-def p_protocol_reference_list(p):
-    """protocol_reference_list : '<' protocol_list '>'
-    """
-    pass
-
-
-# implementation_definition_list
-def p_implementation_definition_list(p):
-    """implementation_definition_list : function_definition
-                                      | declaration
-                                      | method_definition
-                                      | implementation_definition_list function_definition
-                                      | implementation_definition_list declaration
-                                      | implementation_definition_list method_definition
-    """
-    pass
-
-
-# category_name
-def p_category_name(p):
-    """category_name : IDENTIFIER
-    """
-    pass
-
-
-# protocol_name
-def p_protocol_name(p):
-    """protocol_name: IDENTIFIER
-    """
-    pass
-
-
-# class_list
-def p_class_list(p):
-    """class_list : class_name
-                  | class_list ',' class_name
-    """
-    pass
-
-
-# storage_class_specifier
-def p_storage_class_specifier(p):
-    """storage_class_specifier : EXTERN
-                               | STATIC
-                               | AUTO
-                               | REGISTER
-    """
-    pass
-
-
-# type_specifier
-# TODO: TYPE_NAME not resolved
-def p_type_specifier(p):
-    """type_specifier : VOID
-                      | CHAR
-                      | SHORT
-                      | INT
-                      | LONG
-                      | FLOAT
-                      | DOUBLE
-                      | SIGNED
-                      | UNSIGNED
-                      | struct_or_union_specifier
-                      | enum_specifier
-                      | TYPE_NAME
-    """
-    pass
-
-
-# type_qualifier
-def p_type_qualifier(p):
-    """type_qualifier : CONST
-                      | VOLATILE
-    """
-    pass
-
-
-# declspec
-def p_declspec(p):
-    """declspec : DECLSPEC '(' declspec_type ')'
-    """
-    pass
-
-
-# pointer
-def p_pointer(p):
-    """pointer : '*'
-               | '*' type_qualifier_list
-               | '*' pointer
-               | '*' type_qualifier_list pointer
-    """
-    pass
-
-
-# direct_declarator
-def p_direct_declarator(p):
-    """direct_declarator : IDENTIFIER
-                         | '(' declarator ')'
-                         | direct_declarator '[' constant_expression ']'
-                         | direct_declarator '[' ']'
-                         | direct_declarator '(' parameter_type_list ')'
-                         | direct_declarator '(' identifier_list ')'
-                         | direct_declarator '(' ')'
-    """
-    pass
-
-
-# statement_list
-def p_statement_list(p):
-    """statement_list : statement
-                      | statement_list statement
-    """
-    pass
-
-
-# type_declarator
-def p_type_declarator(p):
-    """type_declarator : pointer type_direct_declarator
-                       | type_direct_declarator
-    """
-    pass
-
-
-# init_declarator
-def p_init_declarator(p):
-    """init_declarator : declarator
-                       | declarator '=' initializer
-    """
-    pass
-
+# coding=utf-8
+import ply.lex as lex
+import ply.yacc as yacc
+
+tokens = (
+    'AUTO', 'BREAK', 'CASE', 'CHAR',
+    'CONST', 'CONTINUE', 'DEFAULT', 'DO',
+    'DOUBLE', 'ELSE', 'ENUM', 'EXTERN',
+    'FLOAT', 'FOR', 'GOTO', 'IF',
+    'INLINE', 'INT', 'LONG', 'REGISTER', 'RESTRICT',
+    'RETURN', 'SHORT', 'SIGNED', 'SIZEOF',
+    'STATIC', 'STRUCT', 'SWITCH', 'TYPEDEF',
+    'UNION', 'UNSIGNED', 'VOID', 'VOLATILE',
+    'WHILE', 'BOOL_', 'COMPLEX', 'IMAGINERY', 'TRUE',
+    'FALSE',
+    # reserverd words
+    'BOOL', 'Class', 'BYCOPY', 'BYREF', 'ID', 'IMP', 'IN',
+    'INOUT', 'NIL', 'NO', 'NULL', 'ONEWAY',
+    'OUT', 'PROTOCOL_', 'SEL', 'SELF', 'SUPER',
+    'YES', 'AUTORELEASEPOOL', 'CATCH', 'CLASS', 'DYNAMIC',
+    'ENCODE', 'END', 'FINALLY', 'IMPLEMENTATION', 'INTERFACE',
+    'IMPORT', 'PACKAGE', 'PROTOCOL', 'OPTIONAL', 'PRIVATE',
+    'PROPERTY', 'PROTECTED', 'PUBLIC', 'REQUIRED', 'SELECTOR',
+    'SYNCHRONIZED', 'SYNTHESIZE', 'THROW', 'TRY', 'ATOMIC',
+    'NONATOMIC', 'RETAIN',
+    # attributes
+    'ATTRIBUTE', 'AUTORELEASING_QUALIFIER', 'BLOCK', 'BRIDGE', 'BRIDGE_RETAINED',
+    'BRIDGE_TRANSFER', 'CONVARIANT', 'CONTRAVARIANT', 'DEPRECATED', 'KINDOF',
+    'STRING_QUALIFIER', 'TYPEOF', 'UNSAFE_UNRETAINED_QUALIFIER', 'UNUSED', 'WEAK_QUALIFIER',
+    # nullability
+    'NULL_UNSPECIFIED', 'NULLABLE', 'NONULL', 'NULL_RESETTABLE',
+    # NS prefix
+    'NS_INLINE', 'NS_ENUM', 'NS_OPTIONS',
+    # Property attributes
+    'ASSIGN', 'COPY', 'GETTER', 'SETTER', 'STRONG',
+    'READONLY', 'READWRITE', 'WEAK', 'UNSAFE_UNRETAINED',
+    # Interface builder attributes
+    'IB_OUTLET', 'IB_OUTLET_COLLECTION', 'IB_INSPECTABLE', 'IB_DESIGNABLE',
+    # Ignored macros
+    'NS_ASSUME_NONULL_BEGINE', 'NS_ASSUME_NONULL_END', 'EXTERN_SUFFIX', 'IOS_SUFFIX',
+    'MAC_SUFFIX', 'TVOS_PROHIBITED',
+    # Separators
+    'LP', 'RP', 'LBRACE', 'RBRACE', 'LBRACK', 'RBRACK', 'SEMI', 'COMMA',
+    'DOT', 'STRUCTACCESS', 'AT',
+    # Operators
+    'ASSIGNMENT', 'GT', 'LT', 'BANG', 'TILDE', 'QUESTION', 'COLON', 'EQUAL', 'LE',
+    'GE', 'NOTEQUAL', 'AND', 'OR', 'INC', 'DEC', 'ADD', 'SUB', 'MUL', 'DIV', 'BITAND',
+    'BITOR', 'BITXOR', 'MOD',
+    # Assignments
+    'ADD_ASSIGN', 'SUB_ASSIGN', 'MUL_ASSIGN', 'DIV_ASSIGN', 'AND_ASSIGN', 'OR_ASSIGN',
+    'XOR_ASSIGN', 'MOD_ASSIGN', 'LSHIFT_ASSIGN', 'RSHIFT_ASSIGN', 'ELIPSIS',
+    # Literals
+    'C_STRING_LITERAL', 'OBJC_STRING_LITERAL',
+    'HEX_LITERAL', 'OCTAL_LITERAL', 'BINARY_LITERAL', 'DECIMAL_LITERAL', 'FLOATING_POINT_LITERAL',
+    # IDENTIFIER
+    'IDENTIFIER',
+    # WhiteSpace
+    'WS',
+    # unknown
+    'DECLSPEC', 'DLLIMPORT', 'DLLEXPORT'
+)
+
+t_AUTO = r'auto'
+t_BREAK = r'break'
+t_CASE = r'case'
+t_CHAR = r'char'
+t_CONST = r'const'
+t_CONTINUE = r'continue'
+t_DEFAULT = r'default'
+t_DO = r'do'
+t_DOUBLE = r'double'
+t_ELSE = r'else'
+t_ENUM = r'enum'
+t_EXTERN = r'extern'
+t_FLOAT = r'float'
+t_FOR = r'for'
+t_GOTO = r'goto'
+t_IF = r'if'
+t_INLINE = r'inline'
+t_INT = r'int'
+t_LONG = r'long'
+t_REGISTER = r'register'
+t_RESTRICT = r'restrict'
+t_RETURN = r'return'
+t_SHORT = r'short'
+t_SIGNED = r'signed'
+t_SIZEOF = r'sizeof'
+t_STATIC = r'static'
+t_STRUCT = r'struct'
+t_SWITCH = r'switch'
+t_TYPEDEF = r'typedef'
+t_UNION = r'union'
+t_UNSIGNED = r'unsigned'
+t_VOID = r'void'
+t_VOLATILE = r'volatile'
+t_WHILE = r'while'
+t_BOOL_ = r'_Bool'
+t_COMPLEX = r'_Complex'
+t_IMAGINERY = r'_Imaginery'
+t_TRUE = 'true'
+t_FALSE = 'false'
+
+# reserved words
+
+t_BOOL = r'BOOL'
+t_Class = r'Class'
+t_BYCOPY = r'bycopy'
+t_BYREF = r'byref'
+t_ID = r'id'
+t_IMP = r'IMP'
+t_IN = r'in'
+t_INOUT = r'inout'
+t_NIL = r'nil'
+t_NO = r'NO'
+t_NULL = r'NULL'
+t_ONEWAY = r'oneway'
+t_OUT = r'out'
+t_PROTOCOL_ = r'Protocol'
+t_SEL = r'SEL'
+t_SELF = r'self'
+t_SUPER = r'super'
+t_YES = r'YES'
+t_AUTORELEASEPOOL = r'@autoreleasepool'
+t_CATCH = r'@catch'
+t_CLASS = r'@class'
+t_DYNAMIC = r'@dynamic'
+t_ENCODE = r'@encode'
+t_END = r'@end'
+t_FINALLY = r'@finally'
+t_IMPLEMENTATION = r'@implementation'
+t_INTERFACE = r'@interface'
+t_IMPORT = r'@import'
+t_PACKAGE = r'@package'
+t_PROTOCOL = r'@protocol'
+t_OPTIONAL = r'@optional'
+t_PRIVATE = r'@private'
+t_PROPERTY = r'@property'
+t_PROTECTED = r'@protected'
+t_PUBLIC = r'@public'
+t_REQUIRED = r'@required'
+t_SELECTOR = r'@selector'
+t_SYNCHRONIZED = r'@synchronized'
+t_SYNTHESIZE = r'@synthesize'
+t_THROW = r'@throw'
+t_TRY = r'@try'
+t_ATOMIC = r'atomic'
+t_NONATOMIC = r'nonatomic'
+t_RETAIN = r'retain'
+
+# attributes (ignore)
+t_ignore_ATTRIBUTE = r'__attribute__'
+t_ignore_AUTORELEASING_QUALIFIER = r'__autoreleasing'
+t_ignore_BLOCK = r'__block'
+t_ignore_BRIDGE = r'__bridge'
+t_ignore_BRIDGE_RETAINED = r'__bridge_retained'
+t_ignore_BRIDGE_TRANSFER = r'__bridge_transfer'
+t_ignore_CONVARIANT = r'__convariant'
+t_ignore_CONTRAVARIANT = r'__contravariant'
+t_ignore_DEPRECATED = r'__deprecated'
+t_ignore_KINDOF = r'__kindof'
+t_ignore_STRONG_QUALIFIER = r'__strong'
+t_ignore_TYPEOF = r'typeof|__typeof|__typeof__'
+t_ignore_UNSAFE_UNRETAINED_QUALIFIER = r'__unsafe_unretained'
+t_ignore_UNUSED = r'__unused'
+t_ignore_WEAK_QUALIFIER = r'__weak'
+
+# nullability (ignore)
+t_ignore_NULL_UNSPECIFIED = r'null_unspecified|__null_unspecified|_Null_unspecified'
+t_ignore_NULLABLE = r'nullable|__nullable|_Nullable'
+t_ignore_NONNULL = r'nonull|__nonnull|_Nonnull'
+t_ignore_NULL_RESETTABLE = r'null_resettable'
+
+# NS prefix
+t_NS_INLINE = r'NS_INLINE'
+t_NS_ENUM = r'NS_ENUM'
+t_NS_OPTIONS = r'NS_OPTIONS'
+
+# Property attributes
+t_ASSIGN = r'assign'
+t_COPY = r'copy'
+t_GETTER = r'getter'
+t_SETTER = r'setter'
+t_STRONG = r'strong'
+t_READONLY = r'readonly'
+t_READWRITE = r'readwrite'
+t_WEAK = r'weak'
+t_UNSAFE_UNRETAINED = r'unsafe_unretained'
+
+# Interface Builder attributes (ignore)
+t_ignore_IB_OUTLET = r'IBOutlet'
+t_ignore_IB_OUTLET_COLLECTION = r'IBOutletCollection'
+t_ignore_IB_INSPECTABLE = r'IBInspectable'
+t_ignore_IB_DESIGNABLE = r'IB_DESIGNABLE'
+
+# ignored macros
+t_ignore_NS_ASSUME_NONNULL_BEGIN = r'NS_ASSUME_NONNULL_BEGIN'
+t_ignore_NS_ASSUME_NONNULL_END = r'NS_ASSUME_NONNULL_END'
+t_ignore_EXTERN_SUFFIX = r'[_A-Z]+_EXTERN'
+t_ignore_IOS_SUFFIX = r'[_A-Z]+_IOS\(.+\)'
+t_ignore_MAC_SUFFIX = r'[_A-Z]+_MAC\(.+\)'
+t_ignore_PROHIBITED = r'__TVOS_PROHIBITED'
+
+# Separators
+
+t_LP = r'\('
+t_RP = r'\)'
+t_LBRACE = r'\{'
+t_RBRACE = r'\}'
+t_LBRACK = r'\['
+t_RBRACK = r'\]'
+t_SEMI = r';'
+t_COMMA = r','
+t_DOT = r'\.'
+t_STRUCTACCESS = r'->'
+t_AT = r'@'
+
+# Operators
+
+t_ASSIGNMENT = r'='
+t_GT = r'>'
+t_LT = r'<'
+t_BANG = r'!'
+t_TILDE = r'~'
+t_QUESTION = r'\?'
+t_COLON = r':'
+t_EQUAL = r'=='
+t_LE = r'<='
+t_GE = r'>='
+t_NOTEQUAL = r'!='
+t_AND = r'&&'
+t_OR = r'\|\|'
+t_INC = r'\+\+'
+t_DEC = r'--'
+t_ADD = r'\+'
+t_SUB = r'-'
+t_MUL = r'\*'
+t_DIV = r'\/'
+t_BITAND = r'&'
+t_BITOR = r'\|'
+t_BITXOR = r'\^'
+t_MOD = r'%'
+
+# Assignments
+t_ADD_ASSIGN = r'\+='
+t_SUB_ASSIGN = r'-='
+t_MUL_ASSIGN = r'\*='
+t_DIV_ASSIGN = r'\/='
+t_AND_ASSIGN = r'&='
+t_OR_ASSIGN = r'\|='
+t_XOR_ASSIGN = r'\^='
+t_MOD_ASSIGN = r'%='
+t_LSHIFT_ASSIGN = r'<<='
+t_RSHIFT_ASSIGN = r'>>='
+t_ELIPSIS = r'\.\.\.'
+
+# Identifier
+t_IDENTIFIER = r'[A-Za-z_][A-Za-z_0-9]*'
+
+# literals
+t_C_STRING_LITERAL = r'\"([^\\\n]|(\\.))*?\"'
+t_OBJC_STRING_LITERAL = r'@\"([^\\\n]|(\\.))*?\"'
+t_HEX_LITERAL = r'0[xX][0-9a-fA-F]+'
+t_OCTAL_LITERAL = r'0[0-7]+'
+t_BINARY_LITERAL = r'0[bB][01]+'
+t_DECIMAL_LITERAL = r'[0-9]+'
+t_FLOATING_POINT_LITERAL = r'([0-9]+\.[0-9]*|\.[0-9]+)[fFdD]?'
+
+# ignores
+t_ignore_WS = r'[ \r\n\t\u000C]'
+
+# unknown
+t_DECLSPEC = r'__declspec'
+t_DLLIMPORT = r'dllimport'
+t_DLLEXPORT = r'dllexport'
+
+
+
+def t_newline(t):
+    r'\n+'
+    t.lexer.lineno += t.value.count("\n")
+
+
+# Comments
+def t_multiline_comment(t):
+    r'/\*(.|\n)*?\*/'
+    t.lexer.lineno += t.value.count("\n")
+
+
+def t_singleline_comment(t):
+    r'//.*\n'
+    t.lexer.lineno += 1
+
+def t_precompile_macros(t):
+    r'\#(.|n)*'
+    t.lexer.lineno += t.value.count("\n")
+
+def t_error(t):
+    print("非法字符: '%s'" % t.value[0])
+    t.lexer.skip(1)

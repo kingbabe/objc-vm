@@ -1,7 +1,7 @@
-import compiler.tokens
+import compiler.lexer
 from ply import lex
 
-lex.lex(module=compiler.tokens)
+lex.lex(module=compiler.lexer)
 a = '''
 #import "aaa.h"
 @class ViewController;

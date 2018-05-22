@@ -1,2 +1,2 @@
+from . import semantic
 from . import lexer
-from . import tokens

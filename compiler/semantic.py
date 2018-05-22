@@ -102,12 +102,6 @@ def p_declaration_specifiers(p):
                               | type_specifier declaration_specifiers
                               | type_qualifier
                               | type_qualifier declaration_specifiers
-                              | declspec storage_class_specifier
-                              | declspec storage_class_specifier declaration_specifiers
-                              | declspec type_specifier
-                              | declspec type_specifier declaration_specifiers
-                              | declspec type_qualifier
-                              | declspec type_qualifier declaration_specifiers
     """
     pass
 
@@ -265,27 +259,12 @@ def p_type_qualifier(p):
     pass
 
 
-# declspec (resolved)
-def p_declspec(p):
-    """declspec : DECLSPEC '(' declspec_type ')'
-    """
-    pass
-
-
-# declspec_type (resolved)
-def p_declspec_type(p):
-    """declspec_type : DLLIMPORT
-                     | DLLEXPORT
-    """
-    pass
-
-
 # pointer (resolved)
 def p_pointer(p):
-    """pointer : '*'
-               | '*' type_qualifier_list
-               | '*' pointer
-               | '*' type_qualifier_list pointer
+    """pointer : MUL
+               | MUL type_qualifier_list
+               | MUL pointer
+               | MUL type_qualifier_list pointer
     """
     pass
 

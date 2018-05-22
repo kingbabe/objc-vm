@@ -51,8 +51,7 @@ def p_class_interface(p):
     """class_interface : INTERFACE class_name instance_variables interface_declaration_list END
                        | INTERFACE class_name ':' superclass_name instance_variables interface_declaration_list END
                        | INTERFACE protocol_reference_list instance_variables interface_declaration_list END
-                       | INTERFACE class_name ':' superclass_name protocol_reference_list instance_variables
-                         interface_declaration_list END
+                       | INTERFACE class_name ':' superclass_name protocol_reference_list instance_variables interface_declaration_list END
     """
     pass
 
@@ -60,8 +59,7 @@ def p_class_interface(p):
 # class_implementation (resolved)
 def p_class_implementation(p):
     """class_implementation : IMPLEMENTATION class_name instance_variables implementation_definition_list END
-                            | IMPLEMENTATION class_name ':' superclass_name instance_variables
-                              implementation_definition_list END
+                            | IMPLEMENTATION class_name ':' superclass_name instance_variables implementation_definition_list END
     """
     pass
 
@@ -69,8 +67,7 @@ def p_class_implementation(p):
 # category_interface (resolved)
 def p_category_interface(p):
     """category_interface : INTERFACE class_name '(' category_name ')' interface_declaration_list END
-                          | INTERFACE class_name '(' category_name ')' protocol_reference_list
-                            interface_declaration_list END
+                          | INTERFACE class_name '(' category_name ')' protocol_reference_list interface_declaration_list END
     """
     pass
 
@@ -192,7 +189,7 @@ def p_interface_declaration_list(p):
 
 # protocol_reference_list (resolved)
 def p_protocol_reference_list(p):
-    """protocol_reference_list : LT protocol_list RT
+    """protocol_reference_list : LT protocol_list GT
     """
     pass
 
@@ -218,7 +215,7 @@ def p_category_name(p):
 
 # protocol_name (resolved)
 def p_protocol_name(p):
-    """protocol_name: IDENTIFIER
+    """protocol_name : IDENTIFIER
     """
     pass
 
@@ -242,7 +239,7 @@ def p_storage_class_specifier(p):
 
 
 # type_specifier (resolved)
-# LOG: TYPE_NAME was renamed to id_type_name
+# LOG: TYPE_NAME was renamed to IDENTIFIER
 def p_type_specifier(p):
     """type_specifier : VOID
                       | CHAR
@@ -255,15 +252,7 @@ def p_type_specifier(p):
                       | UNSIGNED
                       | struct_or_union_specifier
                       | enum_specifier
-                      | id_type_name
-    """
-    pass
-
-
-# id_type_name (resolved)
-# LOG: TYPE_NAME was renamed to id_type_name
-def p_id_type_name(p):
-    """id_type_name : IDENTIFIER
+                      | TYPE_NAME
     """
     pass
 
@@ -874,7 +863,7 @@ def p_equality_expression(p):
 def p_relational_expression(p):
     """relational_expression : shift_expression
                              | relational_expression LT shift_expression
-                             | relational_expression RT shift_expression
+                             | relational_expression GT shift_expression
                              | relational_expression LE shift_expression
                              | relational_expression GE shift_expression
     """
@@ -905,4 +894,8 @@ def p_multiplicative_expression(p):
                                  | multiplicative_expression DIV cast_expression
                                  | multiplicative_expression MOD cast_expression
     """
+    pass
+
+
+def p_error(e):
     pass

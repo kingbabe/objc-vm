@@ -1,5 +1,6 @@
 import compiler.lexer
-from ply import lex
+import compiler.semantic
+from ply import lex, yacc
 
 lex.lex(module=compiler.lexer)
 a = '''
@@ -12,8 +13,10 @@ a < b
 '''
 print(a)
 lex.input(a)
+parser = yacc.yacc(module=compiler.semantic)
 
 while 1:
     tok = lex.token()
     if not tok: break
     print tok
+

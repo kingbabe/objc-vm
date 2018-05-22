@@ -2,6 +2,8 @@
 import ply.lex as lex
 import ply.yacc as yacc
 
+identifier_list = []
+
 tokens = (
     'AUTO', 'BREAK', 'CASE', 'CHAR',
     'CONST', 'CONTINUE', 'DEFAULT', 'DO',
@@ -53,7 +55,7 @@ tokens = (
     'C_STRING_LITERAL', 'OBJC_STRING_LITERAL',
     'HEX_LITERAL', 'OCTAL_LITERAL', 'BINARY_LITERAL', 'DECIMAL_LITERAL', 'FLOATING_POINT_LITERAL',
     # IDENTIFIER
-    'IDENTIFIER',
+    'IDENTIFIER', 'TYPE_NAME',
     # WhiteSpace
     'WS',
     # unknown
@@ -256,7 +258,29 @@ t_RSHIFT_ASSIGN = r'>>='
 t_ELLIPSIS = r'\.\.\.'
 
 # Identifier
-t_IDENTIFIER = r'[A-Za-z_][A-Za-z_0-9]*'
+# t_IDENTIFIER = r'[A-Za-z_][A-Za-z_0-9]*'
+
+
+def t_IDENTIFIER(t):
+    r'[A-Za-z_][A-Za-z_0-9]*'
+    if t.value in identifier_list:
+        t.type = 'TYPE_NAME'
+    else:
+        t.type = 'IDENTIFIER'
+        identifier_list.append(t.value)
+    return t
+
+
+#
+# def t_TYPE_NAME(t):
+#     r'[A-Za-z_][A-Za-z_0-9]*'
+#     if t.value in identifier_list:
+#         t.type = 'TYPE_NAME'
+#     else:
+#         t.type = 'IDENTIFIER'
+#         identifier_list.append(t.value)
+#     return t
+
 
 # literals
 t_C_STRING_LITERAL = r'\"([^\\\n]|(\\.))*?\"'
@@ -276,7 +300,6 @@ t_DLLIMPORT = r'dllimport'
 t_DLLEXPORT = r'dllexport'
 
 
-
 def t_newline(t):
     r'\n+'
     t.lexer.lineno += t.value.count("\n")
@@ -292,9 +315,11 @@ def t_singleline_comment(t):
     r'//.*\n'
     t.lexer.lineno += 1
 
+
 def t_precompile_macros(t):
     r'\#(.|n)*'
     t.lexer.lineno += t.value.count("\n")
+
 
 def t_error(t):
     print("非法字符: '%s'" % t.value[0])

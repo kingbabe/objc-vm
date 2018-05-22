@@ -45,7 +45,7 @@ tokens = (
     # Operators
     'ASSIGNMENT', 'GT', 'LT', 'BANG', 'TILDE', 'QUESTION', 'COLON', 'EQUAL', 'LE',
     'GE', 'NOTEQUAL', 'AND', 'OR', 'INC', 'DEC', 'ADD', 'SUB', 'MUL', 'DIV', 'BITAND',
-    'BITOR', 'BITXOR', 'MOD',
+    'BITOR', 'BITXOR', 'MOD', 'LSHIFT', 'RSHIFT',
     # Assignments
     'ADD_ASSIGN', 'SUB_ASSIGN', 'MUL_ASSIGN', 'DIV_ASSIGN', 'AND_ASSIGN', 'OR_ASSIGN',
     'XOR_ASSIGN', 'MOD_ASSIGN', 'LSHIFT_ASSIGN', 'RSHIFT_ASSIGN', 'ELLIPSIS',
@@ -217,6 +217,8 @@ t_AT = r'@'
 # Operators
 
 t_ASSIGNMENT = r'='
+t_LSHIFT = r'<<'
+t_RSHIFT = r'>>'
 t_GT = r'>'
 t_LT = r'<'
 t_BANG = r'!'

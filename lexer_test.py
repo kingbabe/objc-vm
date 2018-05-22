@@ -7,6 +7,8 @@ a = '''
 @class ViewController;
 @"aa\\naaaa"
 0xffffff;
+acc >> bcc
+a < b
 '''
 print(a)
 lex.input(a)

@@ -821,7 +821,7 @@ def p_inclusive_or_expression(p):
     pass
 
 
-# primary_expression
+# primary_expression (resolved)
 # LOG: here, CONSTANT has been translate to literals
 def p_primary_expression(p):
     """primary_expression : IDENTIFIER
@@ -837,7 +837,7 @@ def p_primary_expression(p):
     pass
 
 
-# argument_expression_list
+# argument_expression_list (resolved)
 def p_argument_expression_list(p):
     """argument_expression_list : assignment_expression
                                 | argument_expression_list COMMA assignment_expression
@@ -845,9 +845,64 @@ def p_argument_expression_list(p):
     pass
 
 
-# exclusive_or_expression
+# exclusive_or_expression (resolved)
 def p_exclusive_or_expression(p):
     """exclusive_or_expression : and_expression
                                | exclusive_or_expression BITXOR and_expression
+    """
+    pass
+
+
+# and_expression (resolved)
+def p_and_expression(p):
+    """and_expression : equality_expression
+                      | and_expression BITAND equality_expression
+    """
+    pass
+
+
+# equality_expression （resolved)
+def p_equality_expression(p):
+    """equality_expression : relational_expression
+                           | equality_expression EQUAL relational_expression
+                           | equality_expression NOTEQUAL relational_expression
+    """
+    pass
+
+
+# relational_expression (resolved)
+def p_relational_expression(p):
+    """relational_expression : shift_expression
+                             | relational_expression LT shift_expression
+                             | relational_expression RT shift_expression
+                             | relational_expression LE shift_expression
+                             | relational_expression GE shift_expression
+    """
+    pass
+
+
+# shift_expression (resolved)
+def p_shift_expression(p):
+    """shift_expression : additive_expression
+                        | shift_expression LSHIFT additive_expression
+                        | shift_expression RSHIFT additive_expression"""
+    pass
+
+
+# additive_expression (resolved)
+def p_additive_expression(p):
+    """additive_expression : multiplicative_expression
+                           | additive_expression ADD multiplicative_expression
+                           | additive_expression SUB multiplicative_expression
+    """
+    pass
+
+
+# multiplicative_expression
+def p_multiplicative_expression(p):
+    """multiplicative_expression : cast_expression
+                                 | multiplicative_expression MUL cast_expression
+                                 | multiplicative_expression DIV cast_expression
+                                 | multiplicative_expression MOD cast_expression
     """
     pass

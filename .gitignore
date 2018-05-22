@@ -1,3 +1,7 @@
 .idea/
 venv/
 *.pyc
+lexer_test.py
+semantic_test.py
+parser.out
+parsetab.py

@@ -49,17 +49,18 @@ def p_declaration(p):
 # class_interface (resolved)
 def p_class_interface(p):
     """class_interface : INTERFACE class_name instance_variables interface_declaration_list END
-                       | INTERFACE class_name ':' superclass_name instance_variables interface_declaration_list END
+                       | INTERFACE class_name COLON superclass_name instance_variables interface_declaration_list END
                        | INTERFACE protocol_reference_list instance_variables interface_declaration_list END
-                       | INTERFACE class_name ':' superclass_name protocol_reference_list instance_variables interface_declaration_list END
+                       | INTERFACE class_name COLON superclass_name protocol_reference_list instance_variables interface_declaration_list END
     """
+    print('hello')
     pass
 
 
 # class_implementation (resolved)
 def p_class_implementation(p):
     """class_implementation : IMPLEMENTATION class_name instance_variables implementation_definition_list END
-                            | IMPLEMENTATION class_name ':' superclass_name instance_variables implementation_definition_list END
+                            | IMPLEMENTATION class_name COLON superclass_name instance_variables implementation_definition_list END
     """
     pass
 
@@ -142,7 +143,7 @@ def p_type_declaration(p):
 # init_declarator_list (resolved)
 def p_init_declarator_list(p):
     """init_declarator_list : init_declarator
-                            | init_declarator_list ',' init_declarator
+                            | init_declarator_list COMMA init_declarator
     """
     pass
 
@@ -217,7 +218,7 @@ def p_protocol_name(p):
 # class_list (resolved)
 def p_class_list(p):
     """class_list : class_name
-                  | class_list ',' class_name
+                  | class_list COMMA class_name
     """
     pass
 
@@ -334,7 +335,7 @@ def p_method_declaration(p):
 # protocol_list (resolved)
 def p_protocol_list(p):
     """protocol_list : protocol_name
-                     | protocol_list ',' protocol_name
+                     | protocol_list COMMA protocol_name
     """
     pass
 
@@ -500,7 +501,7 @@ def p_conditional_expression(p):
 # parameter_list (resolved)
 def p_parameter_list(p):
     """parameter_list : parameter_declaration
-                      | parameter_list ',' parameter_declaration
+                      | parameter_list COMMA parameter_declaration
     """
     pass
 
@@ -571,10 +572,8 @@ def p_initializer_list(p):
 # specifier_qualifier_list (resolved)
 # TODO: 这里貌似重复?
 def p_specifier_qualifier_list(p):
-    """specifier_qualifier_list : type_specifier specifier_qualifier_list
-                                | type_specifier
-                                | type_qualifier specifier_qualifier_list
-                                | type_qualifier
+    """specifier_qualifier_list : type_specifier
+                                | type_specifier specifier_qualifier_list
     """
     pass
 

@@ -1,3 +1,4 @@
+# coding=utf-8
 from .lexer import tokens
 from ply import yacc
 
@@ -484,7 +485,7 @@ def p_class_method_declaration(p):
     pass
 
 
-# instance_method_declaration
+# instance_method_declaration (resolved)
 def p_instance_method_declaration(p):
     """instance_method_declaration : SUB method_selector SEMI
                                    | SUB method_type method_selector SEMI
@@ -492,7 +493,7 @@ def p_instance_method_declaration(p):
     pass
 
 
-# class_method_definition
+# class_method_definition (resolved)
 def p_class_method_definition(p):
     """class_method_definition : ADD method_selector compound_statement
                                | ADD method_type method_selector compound_statement
@@ -502,7 +503,7 @@ def p_class_method_definition(p):
     pass
 
 
-# instance_method_definition
+# instance_method_definition (resolved)
 def p_instance_method_definition(p):
     """instance_method_definition : SUB method_selector compound_statement
                                   | SUB method_type method_selector compound_statement
@@ -512,23 +513,23 @@ def p_instance_method_definition(p):
     pass
 
 
-# enumerator_list
+# enumerator_list (resolved)
 def p_enumerator_list(p):
     """enumerator_list : enumerator
-                       | enumerator_list ',' enumerator
+                       | enumerator_list COMMA enumerator
     """
     pass
 
 
-# conditional_expression
+# conditional_expression (resolved)
 def p_conditional_expression(p):
     """conditional_expression : logical_or_expression
-                              | logical_or_expression '?' expression ':' conditional_expression
+                              | logical_or_expression QUESTION expression COLON conditional_expression
     """
     pass
 
 
-# parameter_list
+# parameter_list (resolved)
 def p_parameter_list(p):
     """parameter_list : parameter_declaration
                       | parameter_list ',' parameter_declaration
@@ -536,7 +537,7 @@ def p_parameter_list(p):
     pass
 
 
-# labeled_statement
+# labeled_statement (resolved)
 def p_labeled_statement(p):
     """labeled_statement : IDENTIFIER COLON statement
                          | CASE constant_expression COLON statement
@@ -545,7 +546,7 @@ def p_labeled_statement(p):
     pass
 
 
-# expression_statement
+# expression_statement (resolved)
 def p_expression_statement(p):
     """expression_statement : SEMI
                             | expression SEMI
@@ -553,7 +554,7 @@ def p_expression_statement(p):
     pass
 
 
-# selection_statement
+# selection_statement (resolved)
 def p_selection_statement(p):
     """selection_statement : IF LP expression RP statement
                            | IF LP expression RP statement ELSE statement
@@ -562,7 +563,7 @@ def p_selection_statement(p):
     pass
 
 
-# iteration_statement
+# iteration_statement (resolved)
 def p_iteration_statement(p):
     """iteration_statement : WHILE LP expression RP statement
                            | DO statement WHILE LP expression RP SEMI
@@ -572,7 +573,7 @@ def p_iteration_statement(p):
     pass
 
 
-# jump_statement
+# jump_statement (resolved)
 def p_jump_statement(p):
     """jump_statement : GOTO IDENTIFIER SEMI
                       | CONTINUE SEMI
@@ -583,7 +584,7 @@ def p_jump_statement(p):
     pass
 
 
-# assignment_expression
+# assignment_expression (resolved)
 def p_assignment_expression(p):
     """assignment_expression : conditional_expression
                              | unary_expression assignment_operator assignment_expression
@@ -591,15 +592,16 @@ def p_assignment_expression(p):
     pass
 
 
-# initializer_list
+# initializer_list (resolved)
 def p_initializer_list(p):
     """initializer_list : initializer
-                        | initializer_list ',' initializer
+                        | initializer_list COMMA initializer
     """
     pass
 
 
-# specifier_qualifier_list
+# specifier_qualifier_list (resolved)
+# TODO: 这里貌似重复?
 def p_specifier_qualifier_list(p):
     """specifier_qualifier_list : type_specifier specifier_qualifier_list
                                 | type_specifier
@@ -609,34 +611,128 @@ def p_specifier_qualifier_list(p):
     pass
 
 
-# struct_declarator_list
+# struct_declarator_list (resolved)
 def p_struct_declarator_list(p):
     """struct_declarator_list : struct_declarator
-                              | struct_declarator_list ',' struct_declarator
+                              | struct_declarator_list COMMA struct_declarator
     """
     pass
 
 
-# method_selector
+# method_selector (resolved)
 def p_method_selector(p):
     """method_selector : unary_selector
                        | keyword_selector
-                       | keyword_selector ',' ELLIPSIS
-                       | keyword_selector ',' parameter_type_list
+                       | keyword_selector COMMA ELLIPSIS
+                       | keyword_selector COMMA parameter_type_list
     """
     pass
 
 
-# method_type
+# method_type (resolved)
 def p_method_type(p):
     """method_type : LP type_name RP
     """
     pass
 
 
-# type_name
+# type_name (resolved)
 def p_type_name(p):
     """type_name : specifier_qualifier_list
                  | specifier_qualifier_list abstract_declarator
+    """
+    pass
+
+
+# enumerator
+def p_enumerator(p):
+    """enumerator : IDENTIFIER
+                  | IDENTIFIER ASSIGNMENT constant_expression
+    """
+    pass
+
+
+# logical_or_expression
+def p_logical_or_expression(p):
+    """logical_or_expression : logical_and_expression
+                             | logical_or_expression OR_OP logical_and_expression
+    """
+    pass
+
+
+# expression
+def p_expression(p):
+    """expression : assignment_expression
+                  | expression ',' assignment_expression
+    """
+    pass
+
+
+# parameter_declaration
+def p_parameter_declaration(p):
+    """parameter_declaration : declaration_specifiers declarator
+                             | declaration_specifiers abstract_declarator
+                             | declaration_specifiers
+    """
+    pass
+
+
+# unary_expression
+def p_unary_expression(p):
+    """unary_expression : postfix_expression
+                        | INC_OP unary_expression
+                        | DEC_OP unary_expression
+                        | unary_operator cast_expression
+                        | SIZEOF unary_expression
+                        | SIZEOF '(' type_name ')'
+    """
+    pass
+
+
+# assignment_operator
+def p_assignment_operator(p):
+    """assignment_operator : ASSIGNMENT
+                           | MUL_ASSIGN
+                           | DIV_ASSIGN
+                           | MOD_ASSIGN
+                           | ADD_ASSIGN
+                           | SUB_ASSIGN
+                           | LEFT_ASSIGN
+                           | RIGHT_ASSIGN
+                           | AND_ASSIGN
+                           | XOR_ASSIGN
+                           | OR_ASSIGN
+    """
+    pass
+
+
+# struct_declarator
+def p_struct_declarator(p):
+    """struct_declarator : declarator
+                         | COLON constant_expression
+                         | declarator COLON constant_expression
+    """
+    pass
+
+
+# unary_selector
+def p_unary_selector(p):
+    """unary_selector : selector
+    """
+    pass
+
+# keyword_selector
+def p_keyword_selector(p):
+    """keyword_selector : keyword_declarator
+                        | keyword_selector keyword_declarator
+    """
+    pass
+
+
+# abstract_declarator
+def p_abstract_declarator(p):
+    """abstract_declarator : pointer
+                           | direct_abstract_declarator
+                           | pointer direct_abstract_declarator
     """
     pass

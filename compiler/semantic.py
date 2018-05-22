@@ -644,7 +644,7 @@ def p_type_name(p):
     pass
 
 
-# enumerator
+# enumerator (resolved)
 def p_enumerator(p):
     """enumerator : IDENTIFIER
                   | IDENTIFIER ASSIGNMENT constant_expression
@@ -652,23 +652,23 @@ def p_enumerator(p):
     pass
 
 
-# logical_or_expression
+# logical_or_expression (resolved)
 def p_logical_or_expression(p):
     """logical_or_expression : logical_and_expression
-                             | logical_or_expression OR_OP logical_and_expression
+                             | logical_or_expression OR logical_and_expression
     """
     pass
 
 
-# expression
+# expression (resolved)
 def p_expression(p):
     """expression : assignment_expression
-                  | expression ',' assignment_expression
+                  | expression COMMA assignment_expression
     """
     pass
 
 
-# parameter_declaration
+# parameter_declaration (resolved)
 def p_parameter_declaration(p):
     """parameter_declaration : declaration_specifiers declarator
                              | declaration_specifiers abstract_declarator
@@ -677,19 +677,19 @@ def p_parameter_declaration(p):
     pass
 
 
-# unary_expression
+# unary_expression (resolved)
 def p_unary_expression(p):
     """unary_expression : postfix_expression
-                        | INC_OP unary_expression
-                        | DEC_OP unary_expression
+                        | INC unary_expression
+                        | DEC unary_expression
                         | unary_operator cast_expression
                         | SIZEOF unary_expression
-                        | SIZEOF '(' type_name ')'
+                        | SIZEOF LP type_name RP
     """
     pass
 
 
-# assignment_operator
+# assignment_operator (resolved)
 def p_assignment_operator(p):
     """assignment_operator : ASSIGNMENT
                            | MUL_ASSIGN
@@ -697,8 +697,8 @@ def p_assignment_operator(p):
                            | MOD_ASSIGN
                            | ADD_ASSIGN
                            | SUB_ASSIGN
-                           | LEFT_ASSIGN
-                           | RIGHT_ASSIGN
+                           | LSHIFT_ASSIGN
+                           | RSHIFT_ASSIGN
                            | AND_ASSIGN
                            | XOR_ASSIGN
                            | OR_ASSIGN
@@ -706,7 +706,7 @@ def p_assignment_operator(p):
     pass
 
 
-# struct_declarator
+# struct_declarator (resolved)
 def p_struct_declarator(p):
     """struct_declarator : declarator
                          | COLON constant_expression
@@ -715,13 +715,14 @@ def p_struct_declarator(p):
     pass
 
 
-# unary_selector
+# unary_selector (resolved)
 def p_unary_selector(p):
     """unary_selector : selector
     """
     pass
 
-# keyword_selector
+
+# keyword_selector (resolved)
 def p_keyword_selector(p):
     """keyword_selector : keyword_declarator
                         | keyword_selector keyword_declarator
@@ -729,10 +730,84 @@ def p_keyword_selector(p):
     pass
 
 
-# abstract_declarator
+# abstract_declarator (resolved)
 def p_abstract_declarator(p):
     """abstract_declarator : pointer
                            | direct_abstract_declarator
                            | pointer direct_abstract_declarator
+    """
+    pass
+
+
+# logical_and_expression
+def p_logical_and_expression(p):
+    """logical_and_expression : inclusive_or_expression
+                              | logical_and_expression AND_OP inclusive_or_expression
+    """
+    pass
+
+
+# postfix_expression
+def p_postfix_expression(p):
+    """postfix_expression : primary_expression
+                          | postfix_expression LBRACK expression RBRACK
+                          | postfix_expression LP RP
+                          | postfix_expression LP argument_expression_list RP
+                          | postfix_expression DOT IDENTIFIER
+                          | postfix_expression STRUCTACCESS IDENTIFIER
+                          | postfix_expression INC
+                          | postfix_expression DEC
+    """
+    pass
+
+
+# unary_operator
+def p_unary_operator(p):
+    """unary_operator : BITAND
+                      | MUL
+                      | ADD
+                      | SUB
+                      | TILDE
+                      | BANG
+    """
+    pass
+
+
+# cast_expression
+def p_cast_expression(p):
+    """cast_expression : unary_expression
+                       | LP type_name RP cast_expression
+    """
+    pass
+
+
+# selector
+def p_selector(p):
+    """selector : IDENTIFIER
+    """
+    pass
+
+
+# keyword_declarator
+def p_keyword_declarator(p):
+    """keyword_declarator : COLON IDENTIFIER
+                          | COLON method_type IDENTIFIER
+                          | selector COLON IDENTIFIER
+                          | selector COLON method_type IDENTIFIER
+    """
+    pass
+
+
+# direct_abstract_declarator
+def p_direct_abstract_declarator(p):
+    """direct_abstract_declarator : LP abstract_declarator RP
+                                  | LBRACK RBRACK
+                                  | LBRACK constant_expression RBRACK
+                                  | direct_abstract_declarator LBRACK RBRACK
+                                  | direct_abstract_declarator LBRACK constant_expression RBRACK
+                                  | LP RP
+                                  | LP parameter_type_list RP
+                                  | direct_abstract_declarator LP RP
+                                  | direct_abstract_declarator LP parameter_type_list RP
     """
     pass

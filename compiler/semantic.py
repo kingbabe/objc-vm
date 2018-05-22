@@ -739,15 +739,15 @@ def p_abstract_declarator(p):
     pass
 
 
-# logical_and_expression
+# logical_and_expression (resolved)
 def p_logical_and_expression(p):
     """logical_and_expression : inclusive_or_expression
-                              | logical_and_expression AND_OP inclusive_or_expression
+                              | logical_and_expression AND inclusive_or_expression
     """
     pass
 
 
-# postfix_expression
+# postfix_expression (resolved)
 def p_postfix_expression(p):
     """postfix_expression : primary_expression
                           | postfix_expression LBRACK expression RBRACK
@@ -761,7 +761,7 @@ def p_postfix_expression(p):
     pass
 
 
-# unary_operator
+# unary_operator (resolved)
 def p_unary_operator(p):
     """unary_operator : BITAND
                       | MUL
@@ -773,7 +773,7 @@ def p_unary_operator(p):
     pass
 
 
-# cast_expression
+# cast_expression (resolved)
 def p_cast_expression(p):
     """cast_expression : unary_expression
                        | LP type_name RP cast_expression
@@ -781,14 +781,14 @@ def p_cast_expression(p):
     pass
 
 
-# selector
+# selector (resolved)
 def p_selector(p):
     """selector : IDENTIFIER
     """
     pass
 
 
-# keyword_declarator
+# keyword_declarator (resolved)
 def p_keyword_declarator(p):
     """keyword_declarator : COLON IDENTIFIER
                           | COLON method_type IDENTIFIER
@@ -798,7 +798,7 @@ def p_keyword_declarator(p):
     pass
 
 
-# direct_abstract_declarator
+# direct_abstract_declarator (resolved)
 def p_direct_abstract_declarator(p):
     """direct_abstract_declarator : LP abstract_declarator RP
                                   | LBRACK RBRACK
@@ -809,5 +809,45 @@ def p_direct_abstract_declarator(p):
                                   | LP parameter_type_list RP
                                   | direct_abstract_declarator LP RP
                                   | direct_abstract_declarator LP parameter_type_list RP
+    """
+    pass
+
+
+# inclusive_or_expression (resolved)
+def p_inclusive_or_expression(p):
+    """inclusive_or_expression : exclusive_or_expression
+                               | inclusive_or_expression BITOR exclusive_or_expression
+    """
+    pass
+
+
+# primary_expression
+# LOG: here, CONSTANT has been translate to literals
+def p_primary_expression(p):
+    """primary_expression : IDENTIFIER
+                          | HEX_LITERAL
+                          | OCTAL_LITERAL
+                          | BINARY_LITERAL
+                          | DECIMAL_LITERAL
+                          | FLOATING_POINT_LITERAL
+                          | C_STRING_LITERAL
+                          | OBJC_STRING_LITERAL
+                          | LP expression RP
+    """
+    pass
+
+
+# argument_expression_list
+def p_argument_expression_list(p):
+    """argument_expression_list : assignment_expression
+                                | argument_expression_list COMMA assignment_expression
+    """
+    pass
+
+
+# exclusive_or_expression
+def p_exclusive_or_expression(p):
+    """exclusive_or_expression : and_expression
+                               | exclusive_or_expression BITXOR and_expression
     """
     pass

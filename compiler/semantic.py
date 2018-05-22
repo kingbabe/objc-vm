@@ -101,8 +101,6 @@ def p_declaration_specifiers(p):
                               | storage_class_specifier declaration_specifiers
                               | type_specifier
                               | type_specifier declaration_specifiers
-                              | type_qualifier
-                              | type_qualifier declaration_specifiers
     """
     pass
 
@@ -252,20 +250,10 @@ def p_type_specifier(p):
     pass
 
 
-# type_qualifier (resolved)
-def p_type_qualifier(p):
-    """type_qualifier : CONST
-                      | VOLATILE
-    """
-    pass
-
-
 # pointer (resolved)
 def p_pointer(p):
     """pointer : MUL
-               | MUL type_qualifier_list
                | MUL pointer
-               | MUL type_qualifier_list pointer
     """
     pass
 
@@ -370,14 +358,6 @@ def p_enum_specifier(p):
     """enum_specifier : ENUM LBRACE enumerator_list RBRACE
                       | ENUM IDENTIFIER LBRACE enumerator_list RBRACE
                       | ENUM IDENTIFIER
-    """
-    pass
-
-
-# type_qualifier_list (resolved)
-def p_type_qualifier_list(p):
-    """type_qualifier_list : type_qualifier
-                           | type_qualifier_list type_qualifier
     """
     pass
 

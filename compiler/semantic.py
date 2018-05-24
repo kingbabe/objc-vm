@@ -14,9 +14,9 @@ def p_translation_unit(p):
     """
     # # print 'calling reduce:',  sys._getframe().f_code.co_name
     if isinstance(p[1], TranslationUnits):
-        p[0] = TranslationUnits(p[2], p[1])
+        p[0] = TranslationUnits.initialize(p[2], p[1])
     elif isinstance(p[1], ExternalDeclaration):
-        p[0] = TranslationUnits(p[1])
+        p[0] = TranslationUnits.initialize(p[1])
 
 
 # external_declaration (resolved)
@@ -58,7 +58,7 @@ def p_declaration(p):
 def p_class_interface(p):
     """class_interface : INTERFACE class_name instance_variables interface_declaration_list END
                        | INTERFACE class_name COLON superclass_name instance_variables interface_declaration_list END
-                       | INTERFACE protocol_reference_list instance_variables interface_declaration_list END
+                       | INTERFACE class_name protocol_reference_list instance_variables interface_declaration_list END
                        | INTERFACE class_name COLON superclass_name protocol_reference_list instance_variables interface_declaration_list END
     """
     # print 'calling reduce:',  sys._getframe().f_code.co_name
@@ -108,6 +108,9 @@ def p_declaration_specifiers(p):
                               | type_specifier declaration_specifiers
     """
     # print 'calling reduce:',  sys._getframe().f_code.co_name
+    p1 = p[1]
+    p2 = p[2] if len(p) > 2 else None
+    p[0] = DeclarationSpecifiers.initialize(p1, p2)
 
 
 # declarator (resolved)
